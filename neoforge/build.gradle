@@ -35,7 +35,7 @@ dependencies {
 
     compileOnly ("software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${gekolib_version}") { transitive false }
 
-    modApi ("Mekanism:Mekanism:1.20.4-10.5.1.23") { transitive false }
+//    modApi ("Mekanism:Mekanism:1.20.4-10.5.1.23") { transitive false }
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive false }

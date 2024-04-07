@@ -63,7 +63,7 @@ unifiedPublishing {
         displayName = "[Forge]$rootProject.mod_id-$rootProject.minecraft_version-$rootProject.mod_version"
         releaseType = "$rootProject.artifact_type"
         changelog = ""
-        gameVersions = []
+        gameVersions = ["1.20.4"]
         gameLoaders = ["forge"]
         mainPublication tasks.remapJar
         relations {

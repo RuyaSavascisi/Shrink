@@ -60,7 +60,7 @@ remapJar {
 
 unifiedPublishing {
     project {
-        displayName = "[Forge]$rootProject.mod_id-$rootProject.minecraft_version-$rootProject.mod_version"
+        displayName = "$rootProject.minecraft_version-$rootProject.project.version [Forge]"
         releaseType = "$rootProject.artifact_type"
         changelog = ""
         gameVersions = ["1.20.4"]

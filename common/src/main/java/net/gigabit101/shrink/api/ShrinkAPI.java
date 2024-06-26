@@ -1,26 +1,22 @@
 package net.gigabit101.shrink.api;
 
-import net.gigabit101.shrink.Shrink;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.RangedAttribute;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class ShrinkAPI
 {
-    public static final Attribute SCALE_ATTRIBUTE = new RangedAttribute("shrink_scale", 0.0D, 0.0D, Shrink.shrinkConfig.maxSize).setSyncable(true);
-
     public static boolean canEntityShrink(LivingEntity livingEntity)
     {
         if(livingEntity == null) return false;
-        return livingEntity.getAttribute(ShrinkAPI.SCALE_ATTRIBUTE) != null;
+        return livingEntity.getAttribute(Attributes.SCALE) != null;
     }
 
     public static boolean isEntityShrunk(LivingEntity livingEntity)
     {
         if(livingEntity == null) return false;
         if(livingEntity.getAttributes() == null) return false;
-        if(livingEntity.getAttribute(SCALE_ATTRIBUTE) == null) return false;
+        if(livingEntity.getAttribute(Attributes.SCALE) == null) return false;
 
-        return !livingEntity.getAttribute(ShrinkAPI.SCALE_ATTRIBUTE).getModifiers().isEmpty();
+        return !livingEntity.getAttribute(Attributes.SCALE).getModifiers().isEmpty();
     }
 }

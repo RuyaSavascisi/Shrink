@@ -20,9 +20,7 @@
     ]
   },
   "mixins": [
-    "shrink.mixins.json",
-    "shrink_fabric.mixins.json"
-
+    "shrink.mixins.json"
   ],
   "depends": {
     "fabric": "*",

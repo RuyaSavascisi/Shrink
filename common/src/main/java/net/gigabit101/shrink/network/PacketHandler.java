@@ -1,19 +1,16 @@
 package net.gigabit101.shrink.network;
 
-import dev.architectury.networking.NetworkChannel;
 
+import dev.architectury.networking.simple.MessageType;
+import dev.architectury.networking.simple.SimpleNetworkManager;
 import net.gigabit101.shrink.Shrink;
-import net.gigabit101.shrink.network.packets.PacketEntitySync;
 import net.gigabit101.shrink.network.packets.PacketShrinkDevice;
-import net.minecraft.resources.ResourceLocation;
 
 public class PacketHandler
 {
-    public static final NetworkChannel HANDLER = NetworkChannel.create(new ResourceLocation(Shrink.MOD_ID, "main_channel"));
+    public static SimpleNetworkManager NET = SimpleNetworkManager.create(Shrink.MOD_ID);
 
-    public static void init()
-    {
-        HANDLER.register(PacketShrinkDevice.class, PacketShrinkDevice::write, PacketShrinkDevice::new, PacketShrinkDevice::handle);
-        HANDLER.register(PacketEntitySync.class, PacketEntitySync::write, PacketEntitySync::new, PacketEntitySync::handle);
-    }
+    public static MessageType SHRINK_DEVICE = NET.registerC2S("shrink_device", PacketShrinkDevice::new);
+
+    public static void init() {}
 }

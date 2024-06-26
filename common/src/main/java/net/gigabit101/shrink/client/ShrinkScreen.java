@@ -1,6 +1,5 @@
 package net.gigabit101.shrink.client;
 
-import net.creeperhost.polylib.PolyLib;
 import net.creeperhost.polylib.client.modulargui.ModularGui;
 import net.creeperhost.polylib.client.modulargui.ModularGuiContainer;
 import net.creeperhost.polylib.client.modulargui.elements.*;
@@ -13,21 +12,12 @@ import net.creeperhost.polylib.client.modulargui.lib.geometry.Constraint;
 import net.creeperhost.polylib.client.modulargui.sprite.PolyTextures;
 import net.gigabit101.shrink.Shrink;
 import net.gigabit101.shrink.ShrinkingDeviceContainer;
-import net.gigabit101.shrink.api.ShrinkAPI;
-import net.gigabit101.shrink.client.widgets.ShrinkButton;
 import net.gigabit101.shrink.items.ItemShrinkDevice;
-import net.gigabit101.shrink.network.PacketHandler;
 import net.gigabit101.shrink.network.packets.PacketShrinkDevice;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Function;
@@ -111,8 +101,8 @@ public class ShrinkScreen extends ContainerGuiProvider<ShrinkingDeviceContainer>
                 .setShadow(false)
                 .constrain(TOP, midPoint(upButton.get(BOTTOM), downButton.get(TOP)))
                 .constrain(HEIGHT, Constraint.literal(8))
-                .constrain(LEFT, relative(downButton.get(LEFT), 5))
-                .constrain(RIGHT, relative(downButton.get(RIGHT), -5));
+                .constrain(LEFT, relative(downButton.get(LEFT), 0))
+                .constrain(RIGHT, relative(downButton.get(RIGHT), 0));
 
         var energyBar = GuiEnergyBar.simpleBar(root);
         energyBar.container
@@ -158,7 +148,7 @@ public class ShrinkScreen extends ContainerGuiProvider<ShrinkingDeviceContainer>
         if(SCALE > Shrink.shrinkConfig.maxSize) SCALE = Shrink.shrinkConfig.maxSize;
         if(SCALE < Shrink.shrinkConfig.minSize) SCALE = Shrink.shrinkConfig.minSize;
 
-        PacketHandler.HANDLER.sendToServer(new PacketShrinkDevice(InteractionHand.MAIN_HAND, SCALE));
+        new PacketShrinkDevice(InteractionHand.MAIN_HAND, SCALE).sendToServer();
     }
 
     public static ModularGuiContainer<ShrinkingDeviceContainer> create(ShrinkingDeviceContainer menu, Inventory inventory, Component component)

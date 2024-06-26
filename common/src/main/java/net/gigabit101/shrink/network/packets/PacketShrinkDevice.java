@@ -1,15 +1,19 @@
 package net.gigabit101.shrink.network.packets;
 
 import dev.architectury.networking.NetworkManager;
+import dev.architectury.networking.simple.BaseC2SMessage;
+import dev.architectury.networking.simple.MessageType;
 import net.gigabit101.shrink.items.ItemShrinkDevice;
+import net.gigabit101.shrink.network.PacketHandler;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Supplier;
 
-public class PacketShrinkDevice
+public class PacketShrinkDevice extends BaseC2SMessage
 {
     InteractionHand hand;
     double scale;
@@ -26,17 +30,25 @@ public class PacketShrinkDevice
         scale = friendlyByteBuf.readDouble();
     }
 
-    public void write(FriendlyByteBuf friendlyByteBuf)
+    @Override
+    public MessageType getType()
     {
-        friendlyByteBuf.writeInt(hand == InteractionHand.MAIN_HAND ? 0 : 1);
-        friendlyByteBuf.writeDouble(scale);
+        return PacketHandler.SHRINK_DEVICE;
     }
 
-    public void handle(Supplier<NetworkManager.PacketContext> context)
+    @Override
+    public void write(RegistryFriendlyByteBuf buf)
     {
-        context.get().queue(() ->
+        buf.writeInt(hand == InteractionHand.MAIN_HAND ? 0 : 1);
+        buf.writeDouble(scale);
+    }
+
+    @Override
+    public void handle(NetworkManager.PacketContext context)
+    {
+        context.queue(() ->
         {
-            Player player = context.get().getPlayer();
+            Player player = context.getPlayer();
             if(player == null) return;
             ItemStack stack = player.getItemInHand(hand);
             if(!stack.isEmpty() && stack.getItem() instanceof ItemShrinkDevice itemShrinkDevice)

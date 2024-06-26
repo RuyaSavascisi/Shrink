@@ -38,7 +38,8 @@ public class ItemShrinkBottle extends Item
         BlockPos blockPos = context.getClickedPos().relative(context.getClickedFace());
         entity.absMoveTo(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, 0, 0);
         context.getPlayer().setItemInHand(context.getHand(), new ItemStack(Items.GLASS_BOTTLE, 1));
-        context.getItemInHand().setTag(new CompoundTag());
+        //TODO
+//        context.getItemInHand().setTag(new CompoundTag());
         context.getLevel().addFreshEntity(entity);
         return InteractionResult.SUCCESS;
     }
@@ -53,7 +54,8 @@ public class ItemShrinkBottle extends Item
         nbt.putString("entity", EntityType.getKey(entity.getType()).toString());
         entity.save(nbt);
         ItemStack mobBottle = new ItemStack(ModItems.SHRINK_BOTTLE.get(), 1);
-        mobBottle.setTag(nbt);
+        //TODO
+//        mobBottle.setTag(nbt);
         entity.remove(Entity.RemovalReason.KILLED);
 
         return mobBottle;
@@ -61,24 +63,29 @@ public class ItemShrinkBottle extends Item
 
     public static boolean containsEntity(ItemStack stack)
     {
-        return !stack.isEmpty() && stack.hasTag() && stack.getTag().contains("entity");
+        return false;
+        //TODO
+//        return !stack.isEmpty() && stack.hasTag() && stack.getTag().contains("entity");
     }
 
     public String getEntityID(ItemStack stack)
     {
-        return stack.getTag().getString("entity");
+        return "";
+        //TODO
+//        return stack.getTag().getString("entity");
     }
 
     @Nullable
     public Entity getEntityFromItemStack(ItemStack stack, Level world)
     {
-        EntityType<?> type = EntityType.byString(stack.getTag().getString("entity")).orElse(null);
-        if (type != null)
-        {
-            Entity entity = type.create(world);
-            entity.load(stack.getTag());
-            return entity;
-        }
+        //TODO
+//        EntityType<?> type = EntityType.byString(stack.getTag().getString("entity")).orElse(null);
+//        if (type != null)
+//        {
+//            Entity entity = type.create(world);
+//            entity.load(stack.getTag());
+//            return entity;
+//        }
         return null;
     }
 
@@ -89,16 +96,16 @@ public class ItemShrinkBottle extends Item
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level worldIn, @NotNull List<Component> tooltip, @NotNull TooltipFlag flagIn)
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltipFlag)
     {
-        super.appendHoverText(stack, worldIn, tooltip, flagIn);
+        super.appendHoverText(stack, tooltipContext, list, tooltipFlag);
         if (containsEntity(stack))
         {
-            tooltip.add(Component.literal("Contains : " + getEntityID(stack)));
+            list.add(Component.literal("Contains : " + getEntityID(stack)));
         }
         else
         {
-            tooltip.add(Component.translatable("item.mob_bottle.tooltip_empty"));
+            list.add(Component.translatable("item.mob_bottle.tooltip_empty"));
         }
     }
 }

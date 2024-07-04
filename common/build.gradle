@@ -22,6 +22,13 @@ architectury {
     common("fabric", "forge", "neoforge")
 }
 
+sourceSets {
+    main {
+        resources {
+            srcDir "src/generated/resources"
+        }
+    }
+}
 
 publishing {
     publications {

@@ -15,4 +15,7 @@ public class ShrinkComponentTypes
     public static final RegistrySupplier<DataComponentType<Double>> SHRINKING_DEVICE = COMPONENTS.register("scale", () -> DataComponentType.<Double>builder().
             persistent(Codec.DOUBLE.orElse(0D)).networkSynchronized(ByteBufCodecs.DOUBLE).build());
 
+    public static final RegistrySupplier<DataComponentType<String>> ENTITY = COMPONENTS.register("entity", () -> DataComponentType.<String>builder().
+            persistent(Codec.STRING.orElse("")).networkSynchronized(ByteBufCodecs.STRING_UTF8).build());
+
 }

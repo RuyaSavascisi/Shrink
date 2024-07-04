@@ -1,6 +1,7 @@
 package net.gigabit101.shrink.items;
 
 import net.gigabit101.shrink.init.ModItems;
+import net.gigabit101.shrink.init.ShrinkComponentTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -30,7 +31,6 @@ public class ItemShrinkBottle extends Item
     @Override
     public @NotNull InteractionResult useOn(UseOnContext context)
     {
-
         if (context.getPlayer().level().isClientSide) return InteractionResult.FAIL;
         if (!containsEntity(context.getItemInHand())) return InteractionResult.FAIL;
 
@@ -38,8 +38,6 @@ public class ItemShrinkBottle extends Item
         BlockPos blockPos = context.getClickedPos().relative(context.getClickedFace());
         entity.absMoveTo(blockPos.getX() + 0.5, blockPos.getY(), blockPos.getZ() + 0.5, 0, 0);
         context.getPlayer().setItemInHand(context.getHand(), new ItemStack(Items.GLASS_BOTTLE, 1));
-        //TODO
-//        context.getItemInHand().setTag(new CompoundTag());
         context.getLevel().addFreshEntity(entity);
         return InteractionResult.SUCCESS;
     }
@@ -50,10 +48,11 @@ public class ItemShrinkBottle extends Item
         if (entity.level().isClientSide) return stack;
         if (entity instanceof Player || !entity.isAlive()) return stack;
 
-        CompoundTag nbt = new CompoundTag();
-        nbt.putString("entity", EntityType.getKey(entity.getType()).toString());
-        entity.save(nbt);
+//        CompoundTag nbt = new CompoundTag();
+//        nbt.putString("entity", EntityType.getKey(entity.getType()).toString());
+//        entity.save(nbt);
         ItemStack mobBottle = new ItemStack(ModItems.SHRINK_BOTTLE.get(), 1);
+        mobBottle.set(ShrinkComponentTypes.ENTITY.get(), EntityType.getKey(entity.getType()).toString());
         //TODO
 //        mobBottle.setTag(nbt);
         entity.remove(Entity.RemovalReason.KILLED);
@@ -63,29 +62,23 @@ public class ItemShrinkBottle extends Item
 
     public static boolean containsEntity(ItemStack stack)
     {
-        return false;
-        //TODO
-//        return !stack.isEmpty() && stack.hasTag() && stack.getTag().contains("entity");
+        if(!stack.has(ShrinkComponentTypes.ENTITY.get())) stack.set(ShrinkComponentTypes.ENTITY.get(), "");
+        return !stack.get(ShrinkComponentTypes.ENTITY.get()).isEmpty();
     }
 
     public String getEntityID(ItemStack stack)
     {
-        return "";
-        //TODO
-//        return stack.getTag().getString("entity");
+        return stack.get(ShrinkComponentTypes.ENTITY.get());
     }
 
     @Nullable
     public Entity getEntityFromItemStack(ItemStack stack, Level world)
     {
-        //TODO
-//        EntityType<?> type = EntityType.byString(stack.getTag().getString("entity")).orElse(null);
-//        if (type != null)
-//        {
-//            Entity entity = type.create(world);
-//            entity.load(stack.getTag());
-//            return entity;
-//        }
+        EntityType<?> type = EntityType.byString(stack.get(ShrinkComponentTypes.ENTITY.get())).orElse(null);
+        if (type != null)
+        {
+            return type.create(world);
+        }
         return null;
     }
 

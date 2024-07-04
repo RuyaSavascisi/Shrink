@@ -17,6 +17,9 @@
   "entrypoints": {
     "main": [
       "net.gigabit101.shrink.fabric.ShrinkModFabric"
+    ],
+    "fabric-datagen": [
+      "net.gigabit101.shrink.fabric.ShrinkDataGen"
     ]
   },
   "mixins": [

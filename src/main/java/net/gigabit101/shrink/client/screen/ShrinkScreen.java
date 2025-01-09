@@ -40,7 +40,7 @@ public class ShrinkScreen extends AbstractContainerScreen<ShrinkContainer>
         super.init();
         int x = width / 2;
         if(Minecraft.getInstance().player == null) return;
-        if(this.minecraft != null && this.minecraft.level != null)
+        if(this.minecraft != null && this.minecraft.level != null && livingEntity == null)
             livingEntity = EntityType.COW.create(this.minecraft.level);
 
         Minecraft.getInstance().player.getCapability(ShrinkAPI.SHRINK_CAPABILITY).ifPresent(iShrinkProvider -> this.scale = iShrinkProvider.scale());
@@ -96,9 +96,9 @@ public class ShrinkScreen extends AbstractContainerScreen<ShrinkContainer>
         builder.drawBlackBox(guiGraphics, i + 4, j + 4, 60, 80, 256, 256);
         builder.drawBlackBox(guiGraphics, i + 120, j + 4, 60, 80, 256, 256);
 
-        InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics,i + 30, j + 70, 30, (float)(i + 51) - this.oldMouseX, (float)(j + 75 - 50) - this.oldMouseY, this.minecraft.player);
+        InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics,i + 30, j + 70, (int) (30 * scale), (float)(i + 51) - this.oldMouseX, (float)(j + 75 - 50) - this.oldMouseY, this.minecraft.player);
         if(this.livingEntity != null)
-            InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, i + 145, j + 70, 30, (float)(i + 51) - this.oldMouseX, (float)(j + 75 - 50) - this.oldMouseY, livingEntity);
+            InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, i + 145, j + 70, (int) (30 * scale), (float)(i + 51) - this.oldMouseX, (float)(j + 75 - 50) - this.oldMouseY, livingEntity);
     }
 
     @Override
